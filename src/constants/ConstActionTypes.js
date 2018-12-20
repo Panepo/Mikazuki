@@ -1,0 +1,1 @@
+export const MODEL_SELECT = 'MODEL_SELECT'
