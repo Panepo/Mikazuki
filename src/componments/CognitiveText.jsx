@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import * as func from './Cognitive.func'
+import { configVision } from '../cognitive/Cognitive.config'
+import { fetchApi, limitWidthHeight } from '../cognitive/Cognitive.func'
+import MucText from './MucText'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
@@ -11,21 +13,30 @@ const styles = theme => ({
   root: {},
   hidden: {
     display: 'none'
+  },
+  border: {
+    marginTop: '10px',
+    marginBottom: '10px'
   }
 })
 
 class CognitiveText extends React.Component {
   state = {
     imageFile: [],
+    imageFile2: [],
     imageWidth: 640,
     imageHeight: 360,
-    imageLimit: 400
+    imageLimit: 400,
+    isError: false,
+    message: '',
+    results: {}
   }
 
   constructor(props) {
     super(props)
     this.handleUpload = this.handleUpload.bind(this)
     this.handleClear = this.handleClear.bind(this)
+    this.handleCognitive = this.handleCognitive.bind(this)
   }
 
   // ================================================================================
@@ -34,25 +45,27 @@ class CognitiveText extends React.Component {
 
   handleUpload = event => {
     const data = []
-
+    const dataFile = []
     for (let i = 0; i < event.target.files.length; i += 1) {
       let dataTemp
       if (event.target.files[i] != null) {
         dataTemp = URL.createObjectURL(event.target.files[i])
         data.push(dataTemp)
+        dataFile.push(event.target.files[i])
       }
     }
 
     if (data.length > 0) {
       this.setState({
-        imageFile: data
+        imageFile: data,
+        imageFile2: dataFile
       })
       const image = document.getElementById('inputImage')
       const canvas = document.getElementById('inputCanvas')
       const ctx = canvas.getContext('2d')
 
       image.onload = () => {
-        ;[canvas.width, canvas.height] = func.limitWidthHeight(
+        ;[canvas.width, canvas.height] = limitWidthHeight(
           image.naturalWidth,
           image.naturalHeight,
           this.state.imageLimit
@@ -95,6 +108,27 @@ class CognitiveText extends React.Component {
   }
 
   // ================================================================================
+  // Cognitive service
+  // ================================================================================
+
+  handleCognitive = () => {
+    if (this.state.imageFile2.length > 0) {
+      fetchApi(this.state.imageFile2[0], 'mscs', configVision).then(data => {
+        if (data.err) {
+          this.setState({
+            message: 'An error occured.'
+          })
+        } else {
+          this.setState({
+            message: 'Success.'
+          })
+        }
+        console.log(data)
+      })
+    }
+  }
+
+  // ================================================================================
   // React render functions
   // ================================================================================
 
@@ -105,6 +139,16 @@ class CognitiveText extends React.Component {
         return (
           <Button color="primary" onClick={this.handleClear}>
             Clear
+          </Button>
+        )
+      }
+    }
+
+    const renderCognitive = () => {
+      if (this.state.imageFile.length > 0) {
+        return (
+          <Button color="primary" onClick={this.handleCognitive}>
+            Analysis
           </Button>
         )
       }
@@ -123,6 +167,7 @@ class CognitiveText extends React.Component {
           />
         </Button>
         {renderClear()}
+        {renderCognitive()}
       </div>
     )
   }
@@ -152,6 +197,12 @@ class CognitiveText extends React.Component {
         {this.renderButton()}
         <Divider className={classes.border} />
         {this.renderImage()}
+        <Divider className={classes.border} />
+        <MucText
+          modelId="text-message"
+          modelLabel="Message"
+          modelValue={this.state.message}
+        />
       </div>
     )
   }
