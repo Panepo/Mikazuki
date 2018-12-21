@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
+
+import CognitiveText from '../componments/CognitiveText'
+
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
@@ -84,7 +87,7 @@ class Content extends React.Component {
                 index={this.state.value}
                 onChangeIndex={this.handleChangeIndex}>
                 <TabContainer dir={theme.direction}>
-                  Recognize Text
+                  <CognitiveText />
                 </TabContainer>
                 <TabContainer dir={theme.direction}>Face</TabContainer>
                 <TabContainer dir={theme.direction}>LUIS</TabContainer>
