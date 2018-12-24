@@ -1,31 +1,25 @@
-export const fetchApi = (data, provider, config) => {
-  const headers = new Headers({
-    'Ocp-Apim-Subscription-Key': config.apiKey[provider],
-    'Content-Type': 'application/octet-stream'
-  })
-
-  return fetch(`${config.providerUrl[provider]}`, {
+export const cognitiveApi = (url, headers, data, err) => {
+  return fetch(url, {
     method: 'POST',
-    body: data,
-    headers: headers
+    headers: headers,
+    body: data
   })
     .then(response => {
       if (!response.ok) {
-        return setErr()
+        return cognitiveErr(err)
       }
       return response.json()
     })
-    .catch(() => setErr())
+    .catch(() => cognitiveErr(err))
 }
 
-export const setErr = () => {
+export const cognitiveErr = message => {
   return {
     err: true,
     description: {
       captions: [
         {
-          text:
-            'Hmmm something seems to be wrong... Maybe the file (at least 50*50px)? The Internet?'
+          text: message
         }
       ]
     }
@@ -46,4 +40,16 @@ export const limitWidthHeight = (width, height, limit) => {
       return [width, height]
     }
   }
+}
+
+export const genTextBody = text => {
+  return JSON.stringify({
+    documents: [
+      {
+        language: 'en',
+        id: '1',
+        text: text
+      }
+    ]
+  })
 }

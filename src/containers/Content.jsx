@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
 
+import CognitiveVision from '../componments/CognitiveVision'
 import CognitiveText from '../componments/CognitiveText'
 
 import Grid from '@material-ui/core/Grid'
@@ -75,30 +76,22 @@ class Content extends React.Component {
                 indicatorColor="primary"
                 textColor="primary"
                 fullWidth>
-                <Tab label="Recognize Text" />
-                <Tab label="Face" />
+                <Tab label="Computer Vision" />
+                <Tab label="Face Detection" />
                 <Tab label="LUIS" />
-                <Tab label="Key Phrase Extraction" />
-                <Tab label="Language Detection" />
-                <Tab label="Sentiment Analysis" />
+                <Tab label="Text Analytics" />
               </Tabs>
               <SwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={this.state.value}
                 onChangeIndex={this.handleChangeIndex}>
                 <TabContainer dir={theme.direction}>
-                  <CognitiveText />
+                  <CognitiveVision />
                 </TabContainer>
                 <TabContainer dir={theme.direction}>Face</TabContainer>
                 <TabContainer dir={theme.direction}>LUIS</TabContainer>
                 <TabContainer dir={theme.direction}>
-                  Key Phrase Extraction
-                </TabContainer>
-                <TabContainer dir={theme.direction}>
-                  Language Detection
-                </TabContainer>
-                <TabContainer dir={theme.direction}>
-                  Sentiment Analysis
+                  <CognitiveText />
                 </TabContainer>
               </SwipeableViews>
             </Paper>

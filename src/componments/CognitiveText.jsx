@@ -1,11 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { configVision } from '../cognitive/Cognitive.config'
-import { fetchApi, limitWidthHeight } from '../cognitive/Cognitive.func'
-import MucText from './MucText'
-import Button from '@material-ui/core/Button'
+import { configText } from '../cognitive/Cognitive.config'
+import { cognitiveApi, genTextBody } from '../cognitive/Cognitive.util'
+import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
-import Divider from '@material-ui/core/Divider'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import IconClear from '@material-ui/icons/Clear'
+import IconCast from '@material-ui/icons/Cast'
+import IconCloudCircle from '@material-ui/icons/CloudCircle'
 import { withStyles } from '@material-ui/core/styles'
 import withRoot from '../withRoot'
 
@@ -17,16 +22,30 @@ const styles = theme => ({
   border: {
     marginTop: '10px',
     marginBottom: '10px'
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 400
+  },
+  list: {
+    color: '#FFD54F'
   }
 })
 
-class CognitiveText extends React.Component {
+const headers = new Headers({
+  'Ocp-Apim-Subscription-Key': configText.apiKey,
+  'Content-Type': 'application/json',
+  Accept: 'application/json'
+})
+
+const errMessage =
+  'Hmmm something seems to be wrong... Maybe the file (at least 50*50px)? The Internet?'
+
+class CognitiveVision extends React.Component {
   state = {
-    imageFile: [],
-    imageFile2: [],
-    imageWidth: 640,
-    imageHeight: 360,
-    imageLimit: 400,
+    server: 'Azure',
+    textInput: '',
     isError: false,
     message: '',
     results: {}
@@ -34,7 +53,8 @@ class CognitiveText extends React.Component {
 
   constructor(props) {
     super(props)
-    this.handleUpload = this.handleUpload.bind(this)
+    this.handleInput = this.handleInput.bind(this)
+    this.handleSwitch = this.handleSwitch.bind(this)
     this.handleClear = this.handleClear.bind(this)
     this.handleCognitive = this.handleCognitive.bind(this)
   }
@@ -43,68 +63,28 @@ class CognitiveText extends React.Component {
   // React event handler functions
   // ================================================================================
 
-  handleUpload = event => {
-    const data = []
-    const dataFile = []
-    for (let i = 0; i < event.target.files.length; i += 1) {
-      let dataTemp
-      if (event.target.files[i] != null) {
-        dataTemp = URL.createObjectURL(event.target.files[i])
-        data.push(dataTemp)
-        dataFile.push(event.target.files[i])
-      }
-    }
-
-    if (data.length > 0) {
-      this.setState({
-        imageFile: data,
-        imageFile2: dataFile
-      })
-      const image = document.getElementById('inputImage')
-      const canvas = document.getElementById('inputCanvas')
-      const ctx = canvas.getContext('2d')
-
-      image.onload = () => {
-        ;[canvas.width, canvas.height] = limitWidthHeight(
-          image.naturalWidth,
-          image.naturalHeight,
-          this.state.imageLimit
-        )
-
-        ctx.drawImage(
-          image,
-          0,
-          0,
-          image.naturalWidth,
-          image.naturalHeight,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        )
-        this.setState({
-          imageWidth: image.naturalWidth,
-          imageHeight: image.naturalHeight
-        })
-      }
-    } else {
-      this.setState({
-        imageFile: []
-      })
-    }
-  }
-
   handleClear = () => {
     this.setState({
-      imageFile: []
+      textInput: ''
     })
-    const canvasi = document.getElementById('inputCanvas')
-    const ctxi = canvasi.getContext('2d')
-    ctxi.clearRect(0, 0, this.state.imageWidth, this.state.imageHeight)
+  }
 
-    // const canvaso = document.getElementById('outputCanvas')
-    // const ctxo = canvaso.getContext('2d')
-    // ctxo.clearRect(0, 0, 256, 256)
+  handleInput = event => {
+    this.setState({
+      textInput: event.target.value
+    })
+  }
+
+  handleSwitch = () => {
+    if (this.state.server === 'Azure') {
+      this.setState({
+        server: 'Docker'
+      })
+    } else {
+      this.setState({
+        server: 'Azure'
+      })
+    }
   }
 
   // ================================================================================
@@ -112,11 +92,23 @@ class CognitiveText extends React.Component {
   // ================================================================================
 
   handleCognitive = () => {
-    if (this.state.imageFile2.length > 0) {
-      fetchApi(this.state.imageFile2[0], 'mscs', configVision).then(data => {
+    let url
+    if (this.state.server === 'Azure') {
+      url = configText.azure
+    } else {
+      url = configText.docker
+    }
+
+    if (this.state.textInput.length > 0) {
+      cognitiveApi(
+        url,
+        headers,
+        genTextBody(this.state.textInput),
+        errMessage
+      ).then(data => {
         if (data.err) {
           this.setState({
-            message: 'An error occured.'
+            message: errMessage
           })
         } else {
           this.setState({
@@ -131,85 +123,59 @@ class CognitiveText extends React.Component {
   // ================================================================================
   // React render functions
   // ================================================================================
-
-  renderButton = () => {
-    const { classes } = this.props
-    const renderClear = () => {
-      if (this.state.imageFile.length > 0) {
-        return (
-          <Button color="primary" onClick={this.handleClear}>
-            Clear
-          </Button>
-        )
-      }
-    }
-
-    const renderCognitive = () => {
-      if (this.state.imageFile.length > 0) {
-        return (
-          <Button color="primary" onClick={this.handleCognitive}>
-            Analysis
-          </Button>
-        )
-      }
-    }
-
-    return (
-      <div>
-        <Button color="primary" component="label">
-          Select Image
-          <input
-            className={classes.hidden}
-            type="file"
-            accept="image/*"
-            onChange={this.handleUpload}
-            required
-          />
-        </Button>
-        {renderClear()}
-        {renderCognitive()}
-      </div>
-    )
-  }
-
-  renderImage = () => {
-    return (
-      <div>
-        <img
-          className={this.props.classes.hidden}
-          id="inputImage"
-          src={this.state.imageFile[0]}
-          width="100%"
-          height="100%"
-          alt={this.state.text}
-        />
-        <Grid container justify="center" alignItems="center">
-          <canvas className={this.props.classes.canvas} id="inputCanvas" />
-        </Grid>
-      </div>
-    )
-  }
-
   render() {
     const { classes } = this.props
     return (
-      <div>
-        {this.renderButton()}
-        <Divider className={classes.border} />
-        {this.renderImage()}
-        <Divider className={classes.border} />
-        <MucText
-          modelId="text-message"
-          modelLabel="Message"
-          modelValue={this.state.message}
+      <Grid container justify="center" alignItems="center">
+        <List component="nav">
+          <ListItem button>
+            <ListItemIcon>
+              <IconCloudCircle />
+            </ListItemIcon>
+            <ListItemText
+              primary={this.state.server}
+              onClick={this.handleSwitch}
+            />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <IconClear />
+            </ListItemIcon>
+            <ListItemText primary="Clear" onClick={this.handleClear} />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <IconCast />
+            </ListItemIcon>
+            <ListItemText primary="Congnitive" onClick={this.handleCognitive} />
+          </ListItem>
+        </List>
+        <TextField
+          id="input-text"
+          label="Input Text"
+          multiline
+          rows="4"
+          value={this.state.textInput}
+          onChange={this.handleInput}
+          className={classes.textField}
+          margin="normal"
         />
-      </div>
+        <TextField
+          id="output-text"
+          label="Results"
+          multiline
+          rows="4"
+          value={this.state.message}
+          className={classes.textField}
+          margin="normal"
+        />
+      </Grid>
     )
   }
 }
 
-CognitiveText.propTypes = {
+CognitiveVision.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withRoot(withStyles(styles)(CognitiveText))
+export default withRoot(withStyles(styles)(CognitiveVision))
