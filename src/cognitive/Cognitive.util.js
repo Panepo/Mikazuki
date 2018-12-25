@@ -53,3 +53,10 @@ export const genTextBody = text => {
     ]
   })
 }
+
+export const extractKeyPhrase = data => {
+  return data.documents[0].keyPhrases.reduce((output, data) => {
+    output = output + ' ' + data
+    return output
+  }, '')
+}

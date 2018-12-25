@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { configText } from '../cognitive/Cognitive.config'
-import { cognitiveApi, genTextBody } from '../cognitive/Cognitive.util'
+import {
+  cognitiveApi,
+  genTextBody,
+  extractKeyPhrase
+} from '../cognitive/Cognitive.util'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
@@ -39,16 +43,13 @@ const headers = new Headers({
   Accept: 'application/json'
 })
 
-const errMessage =
-  'Hmmm something seems to be wrong... Maybe the file (at least 50*50px)? The Internet?'
+const errMessage = 'Connection Error'
 
 class CognitiveVision extends React.Component {
   state = {
     server: 'Azure',
     textInput: '',
-    isError: false,
-    message: '',
-    results: {}
+    textOutput: ''
   }
 
   constructor(props) {
@@ -108,14 +109,13 @@ class CognitiveVision extends React.Component {
       ).then(data => {
         if (data.err) {
           this.setState({
-            message: errMessage
+            textOutput: errMessage
           })
         } else {
           this.setState({
-            message: 'Success.'
+            textOutput: extractKeyPhrase(data)
           })
         }
-        console.log(data)
       })
     }
   }
@@ -165,7 +165,7 @@ class CognitiveVision extends React.Component {
           label="Results"
           multiline
           rows="4"
-          value={this.state.message}
+          value={this.state.textOutput}
           className={classes.textField}
           margin="normal"
         />

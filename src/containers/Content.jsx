@@ -68,7 +68,7 @@ class Content extends React.Component {
     return (
       <main className={classes.root}>
         <Grid container className={classes.grid} justify="center" spacing={16}>
-          <Grid item xs={8}>
+          <Grid item xs={10}>
             <Paper className={classes.paper}>
               <Tabs
                 value={this.state.value}
