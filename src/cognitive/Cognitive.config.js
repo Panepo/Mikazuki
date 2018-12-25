@@ -7,5 +7,6 @@ export const configText = {
   apiKey: '94e14770ae5742a08d89a5b8924e375b',
   azure:
     'https://eastasia.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases',
-  docker: 'http://localhost:5000/text/analytics/v2.0/keyPhrases'
+  docker:
+    'https://cors-anywhere.herokuapp.com/http://localhost:5000/text/analytics/v2.0/keyPhrases'
 }

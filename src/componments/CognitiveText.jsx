@@ -36,9 +36,7 @@ const styles = theme => ({
 const headers = new Headers({
   'Ocp-Apim-Subscription-Key': configText.apiKey,
   'Content-Type': 'application/json',
-  Accept: 'application/json',
-  'Access-Control-Allow-Origin': 'http://localhost:3000',
-  'Access-Control-Allow-Credentials': true
+  Accept: 'application/json'
 })
 
 const errMessage =
