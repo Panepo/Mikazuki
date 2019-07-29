@@ -18,7 +18,15 @@ async function run(input: string) {
       console.error('[ERROR]' + data.description)
     } else {
       language = cognitiveText.extractLanguages(data)
-      console.info('[INFO] Text language result: ' + language[0].name + '(' + language[0].iso6391Name + ') ' + language[0].score * 100 + '%')
+      console.info(
+        '[INFO] Text language result: ' +
+          language[0].name +
+          '(' +
+          language[0].iso6391Name +
+          ') ' +
+          language[0].score * 100 +
+          '%'
+      )
     }
   })
 

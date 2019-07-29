@@ -1,6 +1,11 @@
 import fetch from 'node-fetch'
 
-export default async function cognitiveApi(azureUrl: string, params: string, key: string, data: string) {
+export default async function cognitiveApi(
+  azureUrl: string,
+  params: string,
+  key: string,
+  data: string
+) {
   const url = analysisParams(azureUrl, params)
 
   if (url) {
@@ -37,7 +42,7 @@ function getHeader(key: string) {
   return {
     'Ocp-Apim-Subscription-Key': key,
     'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    Accept: 'application/json'
   }
 }
 
@@ -48,4 +53,3 @@ function getError(message: string) {
     description: message
   }
 }
-

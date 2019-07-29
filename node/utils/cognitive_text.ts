@@ -1,4 +1,4 @@
-import { ResLanguages, ResKeyPhrases} from './cognitive.model'
+import { ResLanguages, ResKeyPhrases } from './cognitive.model'
 
 export function genBodyKeyPhrases(language: string = 'en', text: string) {
   return JSON.stringify({

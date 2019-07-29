@@ -1,10 +1,10 @@
 export interface ResKeyPhrases {
-  documents: DocKeyPhrases[],
+  documents: DocKeyPhrases[]
   errors: string[]
 }
 
 interface DocKeyPhrases {
-  id: string,
+  id: string
   keyPhrases: string[]
 }
 
@@ -14,10 +14,10 @@ export interface ResLanguages {
 }
 
 interface DocLanguages {
-  id: string,
+  id: string
   detectedLanguages: {
-    name: string,
-    iso6391Name: string,
+    name: string
+    iso6391Name: string
     score: number
   }
 }
