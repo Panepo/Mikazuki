@@ -206,3 +206,4 @@ yarn-error.log*
 /images/
 /node/output/
 /node/json/
+/node/environment/

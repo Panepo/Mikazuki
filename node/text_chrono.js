@@ -1,8 +1,12 @@
 // import required modules
-let chrono = require('chrono-node')
+const chrono = require('chrono-node')
 
 // process argument
-let input = process.argv[2]
+const input = process.argv[2]
 
-// process chrono
-console.log(chrono.parseDate(input))
+function run(input) {
+  // process chrono
+  console.log(chrono.parseDate(input))
+}
+
+run(input)
