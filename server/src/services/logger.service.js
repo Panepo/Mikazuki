@@ -1,7 +1,7 @@
 import { createLogger, format, transports } from 'winston'
 require('winston-daily-rotate-file')
 import fs from 'fs'
-import { environment } from '../environment/environment'
+import * as config from '../config'
 
 const logDir = 'logs'
 
@@ -17,7 +17,7 @@ const dailyRotateFileTransport = new transports.DailyRotateFile({
 
 const logger = createLogger({
   // change level if in dev environment versus production
-  level: environment.production ? 'debug' : 'info',
+  level: config.production ? 'debug' : 'info',
   format: format.combine(
     format.json(),
     format.timestamp({

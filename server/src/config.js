@@ -1,3 +1,5 @@
+//
+export const production = false
 // platform
 export const chatroomPlatform = process.env.chatroomPlatform
 // line

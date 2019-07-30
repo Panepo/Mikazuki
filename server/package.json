@@ -11,8 +11,7 @@
   },
   "scripts": {
     "test": "jest --config ./jest.config.json --forceExit --verbose false",
-    "start": "SET NODE_ENV=development && nodemon src/index.js",
-    "console": "SET NODE_ENV=development && nodemon src/index.js console",
+    "start": "SET NODE_ENV=development && nodemon src/index.js console",
     "lint": "eslint src/**/*.{js,jsx}",
     "prettier": "prettier --single-quote --no-semi --trailing-comma none --write \"**/*.{js,jsx,ts,tsx}\""
   },
@@ -23,7 +22,9 @@
     "core-js": "^3.0.1",
     "dayjs": "^1.8.15",
     "express": "^4.17.1",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.3",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
