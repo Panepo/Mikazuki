@@ -207,3 +207,4 @@ yarn-error.log*
 /node/output/
 /node/json/
 /node/environment/
+/node/train/
