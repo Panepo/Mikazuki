@@ -208,3 +208,7 @@ yarn-error.log*
 /node/json/
 /node/environment/
 /node/train/
+/node/anwser/
+/node/*.txt
+/node/*test*.*
+/node/*.nlp
