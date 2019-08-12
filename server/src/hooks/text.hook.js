@@ -1,5 +1,6 @@
 import * as cross from './cross.hook'
+import nlp from '../services/nlp.service'
 
-export const textHook = async (context, text) => {
-  await cross.platformReplyText(context, 'is text')
+export default async function textHook(context, message) {
+  await cross.platformReplyText(context, nlp(message))
 }

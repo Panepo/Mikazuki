@@ -1,7 +1,7 @@
 import * as config from '../config'
 
 export async function platformReplyText(context, messenge) {
-  if (context.platform == 'messenger' || context.platform == 'telegram') {
+  if (context.platform == 'messenger' || context.platform == 'telegram' || context.platform == 'console') {
     await context.sendText(messenge)
   } else {
     await context.replyText(messenge)

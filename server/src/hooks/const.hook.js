@@ -1,7 +1,7 @@
 import * as cross from './cross.hook'
 import * as message from '../constants/message'
 
-export const textHook = async (context, text) => {
+export default async function constHook(context) {
   if (context.event.isFollow) {
     await cross.platformReplyText(context, message.msgFollow)
   } else if (context.event.isJoin) {

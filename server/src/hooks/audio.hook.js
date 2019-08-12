@@ -1,5 +1,5 @@
 import * as cross from './cross.hook'
 
-export const audioHook = async context => {
+export default async function audioHook(context) {
   await cross.platformReplyText(context, 'is audio')
 }
