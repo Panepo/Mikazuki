@@ -35,7 +35,7 @@ function run(input) {
   words.map(word => {
     resultTag.push(trans.tify(word.word) + " (" + word.tag + ")")
   })
-  console.log("[INFO] the jieba extract results are:")
+  console.log("[INFO] the jieba tag results are:")
   console.info(resultTag)
 }
 

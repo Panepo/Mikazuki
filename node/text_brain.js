@@ -1,30 +1,28 @@
 // import required modules
 const BrainJSClassifier = require('natural-brain')
-const fs = require('fs')
-const readline = require('readline')
-
 const classifier = new BrainJSClassifier()
 
-const filePath = './train/'
+/*
+classifier.addDocument('turn the table light on', 'table-on')
+classifier.addDocument('turn the left light on', 'table-on')
+classifier.addDocument('turn the table light off', 'table-off')
+classifier.addDocument('turn the left light off', 'table-off')
+classifier.addDocument('turn the right light on', 'floor-on')
+classifier.addDocument('turn on the floor lamp', 'floor-on')
+classifier.addDocument('turn the right light off', 'floor-off')
+classifier.addDocument('turn off the floor lamp', 'floor-off')
+*/
 
-fs.readdir(filePath, (err, files) => {
-  files.forEach(file => {
-    const lineReader = readline.createInterface({
-      input: fs.createReadStream(filePath + file)
-    })
-    lineReader.on('line', line => {
-      const filename = file.split('.')[0]
-      // console.log('Line from ' + filename + ' : ' + line)
-      classifier.addDocument(line.toString(), filename.toString())
-    })
-  })
-})
+classifier.addDocument('桌燈打開', 'table-on')
+classifier.addDocument('左邊的燈打開', 'table-on')
+classifier.addDocument('桌燈關掉', 'table-off')
+classifier.addDocument('關掉左邊的燈', 'table-off')
+classifier.addDocument('右邊的燈打開', 'floor-on')
+classifier.addDocument('啟動右邊的地燈', 'floor-on')
+classifier.addDocument('右邊的燈關掉', 'floor-off')
+classifier.addDocument('地燈關掉', 'floor-off')
+
 
 classifier.train()
 
-console.log(classifier.classify('did the tests pass?')) // -> software
-console.log(classifier.classify('did you buy a new drive?')) // -> hardware
-console.log(classifier.classify('What is the capacity?')) // -> hardware
-console.log(classifier.classify('Lets meet tomorrow?')) // -> meeting
-console.log(classifier.classify('Can you play some stuff?')) // -> music
-
+console.log(classifier.classify('開左邊的燈')) // -> software
