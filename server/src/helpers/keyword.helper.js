@@ -1,4 +1,5 @@
 import natural from 'natural'
+import { messageWeather } from '../messages/weather.message'
 
 export const isKeyword = (tokens, wordsCht, wordsEng, threshold) => {
   let result = false
@@ -26,25 +27,10 @@ export const isKeyword = (tokens, wordsCht, wordsEng, threshold) => {
 }
 
 export const isWeather = tokens => {
-  const wordsCht = [
-    '天氣',
-    '氣溫',
-    '溫度',
-    '壓力',
-    '氣壓',
-    '濕度',
-    '溼度',
-    '風',
-    '雨量'
-  ]
-  const wordsEng = [
-    'weather',
-    'temperature',
-    'wind',
-    'humidity',
-    'pressure',
-    'precipitation'
-  ]
-  const thre = 0.8
-  return isKeyword(tokens, wordsCht, wordsEng, thre)
+  return isKeyword(
+    tokens,
+    messageWeather.cht,
+    messageWeather.eng,
+    messageWeather.thre
+  )
 }
