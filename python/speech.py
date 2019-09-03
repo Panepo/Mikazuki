@@ -9,44 +9,42 @@ parser.add_argument(
     "--input", type=str, required=True, help="Input audio file for analysis"
 )
 parser.add_argument(
-    "--api", type=str, default='Google', help="The api used for speech recognize"
+    "--lang", type=str, default='en', help="Select the audio language"
 )
 args = parser.parse_args()
-
-def recognize(file, api='Google'):
-    # start speech recognizer
-    recognizer = sr.Recognizer()
-
-    with file as source:
-        audio = recognizer.record(source)
-
-        if (api == 'Google'):
-            return recognizer.recognize_google(audio)
-        #elif (api == 'Bing'):
-        #    return recognizer.recognize_bing(audio)
-        elif (api == 'Google Cloud'):
-            return recognizer.recognize_google_cloud(audio)
-        #elif (api == 'Houndify'):
-        #    return recognizer.recognize_houndify(audio)
-        #elif (api == 'IBM'):
-        #    return recognizer.recognize_ibm(audio)
-        elif (api == 'CMU'):
-            return recognizer.recognize_sphinx(audio)
-        #elif (api == 'Wit'):
-        #    return recognizer.recognize_wit(audio)
-        else:
-            print("[ERROR] please input correct api name")
-            return ''
 
 def main():
     # save program start time
     start_time = time.time()
 
+    # start speech recognizer
+    recognizer = sr.Recognizer()
+
     # open input audio file
-    audio = sr.AudioFile(args.input)
-    text = recognize(audio, args.api)
-    print("[INFO] The speech recognize result is:")
-    print(text)
+    with sr.AudioFile(args.input) as source:
+        audio = recognizer.record(source)
+
+    try:
+        # for testing purposes, we're just using the default API key
+        # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
+        # instead of `r.recognize_google(audio)`
+        print("[INFO] Google Speech Recognition thinks you said: ")
+        print(recognizer.recognize_google(audio, language=args.lang))
+    except sr.UnknownValueError:
+        print("[ERROR] Google Speech Recognition could not understand audio")
+    except sr.RequestError as e:
+        print("[ERROR] Could not request results from Google Speech Recognition service; {0}".format(e))
+
+    '''
+    # recognize speech using Sphinx
+    try:
+        print("[INFO] Sphinx thinks you said ")
+        print(recognizer.recognize_sphinx(audio))
+    except sr.UnknownValueError:
+        print("Sphinx could not understand audio")
+    except sr.RequestError as e:
+        print("Sphinx error; {0}".format(e))
+    '''
 
     # Calculate processing time
     label = "Process time: %.2f ms" % ((time.time() - start_time) * 1000)
