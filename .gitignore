@@ -204,6 +204,7 @@ yarn-error.log*
 /archive/
 /temp/
 /images/
+/voice/
 /node/output/
 /node/json/
 /node/environment/
