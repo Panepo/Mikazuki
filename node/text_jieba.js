@@ -6,7 +6,7 @@ const trans = require('chinese-conv')
 const input = process.argv[2]
 
 if (!input) {
-  console.error("[ERROR] the input text string is required")
+  console.error('[ERROR] the input text string is required')
   process.exit(0)
 }
 
@@ -19,7 +19,7 @@ function run(input) {
   words.forEach(word => {
     resultCut.push(trans.tify(word))
   })
-  console.log("[INFO] the jieba cut results are:")
+  console.log('[INFO] the jieba cut results are:')
   console.info(resultCut)
 
   words = nodejieba.extract(sifyInput, 5)
@@ -27,15 +27,15 @@ function run(input) {
   words.map(word => {
     resultExtract.push(trans.tify(word.word))
   })
-  console.log("[INFO] the jieba extract results are:")
+  console.log('[INFO] the jieba extract results are:')
   console.info(resultExtract)
 
   words = nodejieba.tag(sifyInput)
   const resultTag = []
   words.map(word => {
-    resultTag.push(trans.tify(word.word) + " (" + word.tag + ")")
+    resultTag.push(trans.tify(word.word) + ' (' + word.tag + ')')
   })
-  console.log("[INFO] the jieba tag results are:")
+  console.log('[INFO] the jieba tag results are:')
   console.info(resultTag)
 }
 

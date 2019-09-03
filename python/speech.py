@@ -9,7 +9,7 @@ parser.add_argument(
     "--input", type=str, required=True, help="Input audio file for analysis"
 )
 parser.add_argument(
-    "--lang", type=str, default='en', help="Select the audio language"
+    "--lang", type=str, default='en-US', help="Select the audio language"
 )
 args = parser.parse_args()
 

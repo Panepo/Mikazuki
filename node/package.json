@@ -13,6 +13,7 @@
     "prettier": "prettier --single-quote --no-semi --trailing-comma none --write \"**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
+    "@google-cloud/speech": "^3.2.6",
     "axios": "^0.19.0",
     "bluebird": "^3.5.5",
     "brain": "^1.0.0",

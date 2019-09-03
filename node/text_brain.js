@@ -22,7 +22,6 @@ classifier.addDocument('啟動右邊的地燈', 'floor-on')
 classifier.addDocument('右邊的燈關掉', 'floor-off')
 classifier.addDocument('地燈關掉', 'floor-off')
 
-
 classifier.train()
 
 console.log(classifier.classify('開左邊的燈')) // -> software
