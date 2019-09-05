@@ -10,12 +10,10 @@ if (!input) {
 }
 
 function run(input) {
-  // Time Reference. Transfor Server time to Taiwan time.
   let date = new Date()
   const utc = date.getTime() + date.getTimezoneOffset() * 60000
   date = new Date(utc + 3600000 * 8)
 
-  // Get the utc time from message refers to Taiwan time
   const timeInfo = chrono.parse(input, date)[0]
   if (timeInfo == undefined) {
     console.error('[ERROR] no time result found.')
