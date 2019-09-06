@@ -1,22 +1,23 @@
 import natural from 'natural'
-import { messageWeather } from '../messages/weather.message'
 
-export const isKeyword = (tokens, wordsCht, wordsEng, threshold) => {
+export const isKeyword = (tokens, template) => {
   let result = false
   tokens.map(token => {
     if (token.tag === 'n') {
-      wordsCht.forEach(word => {
+      template.cht.forEach(word => {
         if (token.word === word) {
           result = true
         }
       })
     } else if (token.tag === 'eng') {
-      wordsEng.forEach(word => {
+      template.eng.forEach(word => {
         if (token.word === word) {
           result = true
         }
         // eslint-disable-next-line
-        if (natural.JaroWinklerDistance(token.word, word) > threshold) {
+        if (
+          natural.JaroWinklerDistance(token.word, word) > template.threshold
+        ) {
           result = true
         }
         // console.log(token.word + " & " + word + " : " + natural.JaroWinklerDistance(token.word, word))
@@ -24,13 +25,4 @@ export const isKeyword = (tokens, wordsCht, wordsEng, threshold) => {
     }
   })
   return result
-}
-
-export const isWeather = tokens => {
-  return isKeyword(
-    tokens,
-    messageWeather.cht,
-    messageWeather.eng,
-    messageWeather.thre
-  )
 }
