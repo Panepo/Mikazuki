@@ -21,5 +21,5 @@ const templateOff = {
 export const checkSwitch = tokens => {
   const on = isKeyword(tokens, templateOn)
   const off = isKeyword(tokens, templateOff)
-  return on ? 1 : off ? 2 : 0
+  return on ? 'on' : off ? 'off' : 'none'
 }

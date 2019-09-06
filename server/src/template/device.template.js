@@ -2,13 +2,13 @@ import { isKeyword } from '../helpers/keyword.helper'
 
 const templateAll = {
   cht: ['全', '都'],
-  eng: ['all'],
-  thre: 0.8
+  eng: ['all', 'all'],
+  thre: 0.9
 }
 
 const templateLight = {
   cht: ['燈'],
-  eng: ['light', 'lamp'],
+  eng: ['light', 'lamp', 'lights'],
   thre: 0.8
 }
 
@@ -37,5 +37,5 @@ export const checkDevice = tokens => {
   const left = isKeyword(tokens, templateLeft)
   const right = isKeyword(tokens, templateRight)
 
-  return light ? all ? 1 : left ? 2 : right ? 3 : 0 : 0
+  return light ? all ? 'all' : left ? 'left' : right ? 'right' : 'none' : 'none'
 }

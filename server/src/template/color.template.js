@@ -20,5 +20,5 @@ const templateYellow = {
 export const checkColor = tokens => {
   const green = isKeyword(tokens, templateGreen)
   const yellow = isKeyword(tokens, templateYellow)
-  return yellow ? 1 : green ? 2 : 0
+  return yellow ? 'yellow' : green ? 'green' : 'none'
 }
