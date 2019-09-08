@@ -37,5 +37,5 @@ export const checkDevice = tokens => {
   const left = isKeyword(tokens, templateLeft)
   const right = isKeyword(tokens, templateRight)
 
-  return light ? all ? 'all' : left ? 'left' : right ? 'right' : 'none' : 'none'
+  return light ? all ? 'all' : left ? right ? 'all' : 'left' : right ? 'right' : 'none' : 'none'
 }
