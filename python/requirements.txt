@@ -1,0 +1,7 @@
+SpeechRecognition==3.8.1
+PyAudio==0.2.11
+opencc_python_reimplemented==0.1.5
+nltk==3.4
+jieba==0.39
+langdetect==1.0.7
+opencc==0.2
