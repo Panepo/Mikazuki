@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@google-cloud/speech": "^3.2.6",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bluebird": "^3.5.5",
     "brain": "^1.0.0",
     "chinese-conv": "^1.0.1",
