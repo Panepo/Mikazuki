@@ -22,7 +22,7 @@
     "chrono-node": "^2.2.4",
     "core-js": "^3.0.1",
     "dayjs": "^1.8.15",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "natural": "^0.6.3",
     "nodejieba": "^2.3.1",
     "regenerator-runtime": "^0.13.3",
